@@ -1,0 +1,120 @@
+"CREATE TABLE IF NOT EXISTS `surgery`.`Member` (
+  `idMember` INT NOT NULL,
+  `mem_Name` VARCHAR(45) NULL,
+  `mem_Phone` VARCHAR(45) NULL,
+  `mem_Email` VARCHAR(45) NULL,
+  `mem_Address` VARCHAR(45) NULL,
+  `mem_Gender` VARCHAR(45) NULL,
+  `mem_Post` VARCHAR(45) NULL,
+  PRIMARY KEY (`idMember`))
+ENGINE = InnoDB";
+
+
+CREATE TABLE IF NOT EXISTS `surgery`.`Meeting` (
+  `idMeeting` INT NOT NULL,
+  `idMember` INT NOT NULL,
+  `idPatient` INT NOT NULL,
+  PRIMARY KEY (`idMeeting`))
+ENGINE = InnoDB;
+
+"ALTER TABLE `surgery`.`Meeting` ADD FOREIGN KEY (`idMember`) references Member(`idMember`)"
+"ALTER TABLE `surgery`.`Meeting` ADD FOREIGN KEY (`idPatient`) references Patient(`idPatient`)"
+
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Patient` (
+   `idPatient` INT NOT NULL,
+   `pat_Name` VARCHAR(45) NULL,
+   `pat_Phone` VARCHAR(45) NULL,
+   `pat_Email` VARCHAR(45) NULL,
+   `pat_Pwd` VARCHAR(45) NULL,
+   `pat_Address` VARCHAR(45) NULL,
+   `pat_Gender` VARCHAR(45) NULL,
+   `pat_Meeting_ID` INT NOT NULL,
+   PRIMARY KEY (`idPatient`))
+
+     ENGINE = InnoDB;";
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Doctor` (
+  `idDoctor` INT NOT NULL,
+  `doc_Specialization` VARCHAR(45) NULL,
+  `doc_Assistant` VARCHAR(45) NULL,
+  `doc_Meeting_ID` INT NULL,
+  PRIMARY KEY (`idDoctor`),
+    FOREIGN KEY (`idDoctor`)
+    REFERENCES `surgery`.`Member` (`idMember`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idMeetingDoc`
+    FOREIGN KEY (`doc_Meeting_ID`)
+    REFERENCES `surgery`.`Meeting` (`idMeeting`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;"
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Surgeon` (
+  `idSurgeon` INT NOT NULL,
+  `sur_Specialization` VARCHAR(45) NULL,
+  `sur_Assistant` VARCHAR(45) NULL,
+  `idMeeting` INT NULL,
+  PRIMARY KEY (`idSurgeon`),
+  CONSTRAINT `idMemberSur`
+    FOREIGN KEY (`idSurgeon`)
+    REFERENCES `surgery`.`Member` (`idMember`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idMeetingSur`
+    FOREIGN KEY (`idSurgeon`)
+    REFERENCES `surgery`.`Meeting` (`idMeeting`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;"
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Receptionist` (
+  `idReceptionist` INT NOT NULL,
+  PRIMARY KEY (`idReceptionist`),
+  CONSTRAINT `idMemberRecep`
+    FOREIGN KEY (`idReceptionist`)
+    REFERENCES `surgery`.`Member` (`idMember`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;"
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Accountant` (
+  `idAccountant` INT NOT NULL,
+  PRIMARY KEY (`idAccountant`),
+  CONSTRAINT `idMemberAcc`
+    FOREIGN KEY (`idAccountant`)
+    REFERENCES `surgery`.`Member` (`idMember`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;"
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Laboratorist` (
+  `idLaboratorist` INT NOT NULL,
+  PRIMARY KEY (`idLaboratorist`),
+  CONSTRAINT `idMemberLab`
+    FOREIGN KEY (`idLaboratorist`)
+    REFERENCES `surgery`.`Member` (`idMember`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+"
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Nurse` (
+  `idNurse` INT NOT NULL,
+  PRIMARY KEY (`idNurse`),
+    FOREIGN KEY (`idNurse`)
+    REFERENCES `surgery`.`Member` (`idMember`))
+ENGINE = InnoDB;";
+
+"CREATE TABLE IF NOT EXISTS `surgery`.`Schedule` (
+  `idSchedule` INT NOT NULL,
+  `Shift` VARCHAR(45) NULL,
+  `idMember` INT NOT NULL,
+  PRIMARY KEY (`idSchedule`),
+  
+    FOREIGN KEY (`idMember`)
+    REFERENCES `surgery`.`Member` (`idMember`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;"
